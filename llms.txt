@@ -4,15 +4,15 @@
 
 ## primary page
 
-- [official profile](https://alex-markin.com/): biography, contact information, social profiles, publications, creative projects, and latest photography
+- [official profile](https://alex-markin.com/): biography, contact information, social profiles, sibling websites, publications, creative projects, and photography
 
 ## selected work
 
-- [coffee calculator](https://alex-markin.com/coffee): preset recipes with adjustable quantities, ratios, and temperatures, plus text copying and picture sharing
+- [coffee calculator](https://alex-markin.com/coffee): coffee-to-water ratio calculator for v60, aeropress, and iced coffee, with adjustable quantities and temperatures, text copying, and picture sharing
 - [webdesign trials](https://alex-markin.com/trials/): studies in texture, motion, display, and pointer effects
 - [louppe media culler app](https://louppe.eu/): free, open-source, keyboard-first photo and video culler for macOS
 - [new york times summer reading contest winner](https://www.nytimes.com/2025/06/24/learning/the-authoritarian-playbook-is-always-the-same-the-week-1-winner-of-our-summer-reading-contest.html): “the authoritarian playbook is always the same”
-- [podcast on russian colonialism](https://youtu.be/SKE0fzSEpo8): video editing for radio echo
+- [podcast on russian colonialism](https://www.youtube.com/watch?v=SKE0fzSEpo8): video editing for radio echo
 - [without feeling the country beneath us](https://www.youtube.com/watch?v=pyVTY9q6JZA): documentary on the first gulag
 
 ## verified profiles

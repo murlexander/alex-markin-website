@@ -627,6 +627,20 @@ merge it into the deferred shared behaviour in `site.js`.
    commented section, and document it in this file.
 4. Use the shared footer format, except the calculator, which has no footer.
 
+## search metadata and links
+
+Keep each public page's title and description specific to its actual content; use the
+same wording in its Open Graph, Twitter, and page-level structured data. Visible headings
+and prose keep their own concise voice. The homepage Person description retains the full bio.
+The homepage identifies the WebSite and author shared by the calculator and trials;
+`sameAs` contains Alex's own profiles, while `sibling` identifies the linked family members.
+
+`sitemap.xml` lists only canonical, indexable pages. Update the affected entry's `lastmod`
+and any page `dateModified` after significant content, link, or metadata changes.
+The CV remains deliberately `noindex`; privacy and legacy Louppe redirects stay out of the sitemap.
+Regular editorial links remain followed, with `noopener` on new-tab links. Prefer direct
+destination URLs over short-link redirects, and retain descriptive surrounding text.
+
 ## cache-busting
 
 `index.html` links the stylesheet as `styles.css?v=YYYYMMDD` (append `-N` for additional
