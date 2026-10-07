@@ -290,6 +290,12 @@ a[target="_blank"]:not(.flickr-photo-link)::after {
 
 .desc a { color: var(--accent); }
 
+/* A quiet personal aside after the homepage bio. */
+.bio-postscript { margin-top: 18px; }
+.bio-postscript a { color: inherit; }
+.bio-postscript a:hover,
+.bio-postscript a:focus-visible { color: var(--ink-hover); }
+
 /* --------------------------------------------------------------------------
    cv entries (cv.html)
    -------------------------------------------------------------------------- */

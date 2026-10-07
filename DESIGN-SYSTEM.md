@@ -115,6 +115,10 @@ The signature pattern. Title left, dotted line fills the middle, lowercase mono 
 ```
 Inline links inside `.desc` render in `--accent`.
 
+The homepage bio ends with a `.desc.bio-postscript` linking to sibling websites.
+It uses the existing description scale with an 18px gap; its links inherit the muted
+prose color and retain the standard external markers and appearance hover/focus treatments.
+
 ### identity header (`/` and `/cv` only)
 The portrait-and-name identity block belongs only on the homepage and cv. On the cv, the
 portrait and name link back to `/`. Product and catalogue pages omit the identity block and
