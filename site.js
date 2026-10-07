@@ -18,9 +18,59 @@
     return "just now";
   }
 
-  document.querySelectorAll(".ago[data-fallback-updated]").forEach(function (el) {
-    var value = el.dataset.fallbackUpdated;
-    if (!Number.isNaN(new Date(value).getTime())) el.textContent = "upd " + ago(value);
+  // Public activity only. Never substitute a fixed date when GitHub is unavailable.
+  // A short session cache avoids spending the public API limit on repeat visits.
+  document.querySelectorAll(".ago[data-user], .ago[data-repo]").forEach(function (el) {
+    var repo = el.dataset.repo;
+    var path = repo
+      ? "repos/" + repo.split("/").map(encodeURIComponent).join("/")
+      : "users/" + encodeURIComponent(el.dataset.user) + "/events/public?per_page=1";
+    var key = "github-activity-v1:" + path;
+    var maxAge = 15 * 60 * 1000;
+
+    function valid(value) {
+      var time = typeof value === "string" ? new Date(value).getTime() : NaN;
+      return Number.isFinite(time) && time <= Date.now();
+    }
+
+    function render(value) {
+      el.textContent = "upd " + ago(value);
+      el.title = (repo ? "Latest repository push: " : "Latest public GitHub activity: ") +
+        new Date(value).toISOString();
+    }
+
+    try {
+      var cached = JSON.parse(sessionStorage.getItem(key));
+      if (cached && typeof cached.at === "number" && cached.at <= Date.now() &&
+          Date.now() - cached.at < maxAge && valid(cached.value)) {
+        render(cached.value);
+        return;
+      }
+    } catch (error) { /* blocked storage must not prevent fetching */ }
+
+    var controller = new AbortController();
+    var timeout = setTimeout(function () { controller.abort(); }, 8000);
+    fetch("https://api.github.com/" + path, {
+      headers: { Accept: "application/vnd.github+json" },
+      credentials: "omit",
+      referrerPolicy: "no-referrer",
+      signal: controller.signal
+    }).then(function (response) {
+      if (!response.ok) throw new Error("GitHub activity unavailable");
+      return response.json();
+    }).then(function (data) {
+      var value = repo ? data && data.pushed_at
+        : Array.isArray(data) && data[0] && data[0].created_at;
+      if (!valid(value)) throw new Error("Missing GitHub activity date");
+      render(value);
+      try {
+        sessionStorage.setItem(key, JSON.stringify({ value: value, at: Date.now() }));
+      } catch (error) { /* the live label still works without storage */ }
+      clearTimeout(timeout);
+    }).catch(function () {
+      clearTimeout(timeout);
+      // Empty spans collapse; offline, empty feeds, and rate limits stay quiet.
+    });
   });
 
   // live local clock — copenhagen and berlin share one timezone

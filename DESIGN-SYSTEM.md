@@ -263,9 +263,12 @@ Allowed (subtle, typographic): dotted leaders, mono tags and timestamps,
 (`<span class="counter-chip">004821</span>`).
 
 **"How long ago" timestamp (`.ago`)** — a mono `--faint` span placed inside a
-`.row` between the link and the `.leader`. `site.js` formats its authored
-`data-fallback-updated="<ISO timestamp>"` without contacting another service.
-Refresh that timestamp when the site is shipped.
+`.row` between the link and the `.leader`. `site.js` reads the public GitHub API:
+`data-user="<username>"` shows the latest public event, and
+`data-repo="<owner/repo>"` shows the repository's `pushed_at` (code activity).
+Successful dates are cached in `sessionStorage` for 15 minutes; failures, rate limits,
+and empty feeds leave the span empty. Never use a fixed fallback date for live activity.
+Requests omit credentials and the referrer; no token is shipped to the browser.
 Minute values use the compact `min` abbreviation for both singular and plural (e.g.
 `upd 1 min ago`, `upd 3 min ago`), never `minute` or `minutes`. Live update statuses use
 the compact `upd` prefix, never `updated`; the footer uses `upd YYYY-MM-DD`.
@@ -597,7 +600,7 @@ visible on the experiment; no visitor text or uploaded images are accepted here.
 
 ## shared behaviour (`site.js`)
 
-Standard page behaviour lives in `site.js`: the authored `.ago` timestamps,
+Standard page behaviour lives in `site.js`: the public GitHub `.ago` timestamps,
 the header clock, random album photograph, and `copy as markdown`. Each block no-ops when its elements
 are absent. Do not re-inline this script into a page; add to `site.js` instead,
 and bump its `?v=` when it changes. `privacy.js` handles analytics consent on every

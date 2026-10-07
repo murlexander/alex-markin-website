@@ -8,6 +8,7 @@ Personal site for alex markin. Static HTML + CSS, no build step, no framework.
 - `louppe/` — legacy redirect to the standalone site at `louppe.eu`
 - `trials/` — the site-native trials index and immersive webdesign experiments
 - `styles.css` — all styling; everything derives from the tokens at the top
+- `site.js` — shared page behavior, including public GitHub activity labels; dates are fetched from GitHub and cached in the tab for 15 minutes, with no fixed fallback or embedded token
 - `privacy.css`, `privacy.js` — compact privacy pop-up and opt-in analytics on every page
 - `privacy.html` — redirects old links to the pop-up
 - `flickr-photo.jpg` — homepage photo fallback for unavailable JavaScript or image loads
@@ -85,6 +86,9 @@ DNS (at Namecheap) points the apex `alex-markin.com` at GitHub Pages via four `A
 (`185.199.108–111.153`). The site is apex-only — there is intentionally no `www` record.
 
 ## Preview locally
+
+Check activity fetching, caching, and failure behavior with `node --test scripts/test-site-activity.cjs`.
+
 ```
 python3 -m http.server 8787
 # open http://localhost:8787
