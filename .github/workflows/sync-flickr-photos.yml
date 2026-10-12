@@ -2,7 +2,8 @@ name: Sync Flickr album
 
 on:
   schedule:
-    - cron: '37 * * * *'
+    # Check daily; the cadence job runs the sync every third UTC day.
+    - cron: '37 6 * * *'
   workflow_dispatch:
 
 permissions:
@@ -14,7 +15,21 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  cadence:
+    runs-on: ubuntu-latest
+    outputs:
+      due: ${{ steps.check.outputs.due }}
+    steps:
+      - name: Check three-day cadence (anchored to 12 October 2026 UTC)
+        id: check
+        run: |
+          days=$(( ( $(date -u +%s) - $(date -u -d '2026-10-12' +%s) ) / 86400 ))
+          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" || $((days % 3)) -eq 0 ]]; then
+            echo 'due=true' >> "$GITHUB_OUTPUT"
+          fi
   sync:
+    needs: cadence
+    if: needs.cadence.outputs.due == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:

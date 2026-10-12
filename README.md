@@ -13,7 +13,7 @@ Personal site for alex markin. Static HTML + CSS, no build step, no framework.
 - `privacy.html` — redirects old links to the pop-up
 - `flickr-photo.jpg` — homepage photo fallback for unavailable JavaScript or image loads
 - `flickr-photos.json`, `flickr-photos/` — locally hosted album snapshot; one photo is chosen randomly on each homepage load
-- `scripts/sync-flickr-photos.py` — fetch every page of the public Flickr album; `.github/workflows/sync-flickr-photos.yml` refreshes and publishes the snapshot hourly (at minute 37, subject to GitHub scheduling delays), with a manual **Run workflow** option
+- `scripts/sync-flickr-photos.py` — fetch every page of the public Flickr album; `.github/workflows/sync-flickr-photos.yml` refreshes and publishes the snapshot every three days (06:37 UTC, subject to GitHub scheduling delays), with a manual **Run workflow** option
 - `robots.txt` — crawler permissions and sitemap discovery
 - `sitemap.xml` — canonical, indexable pages submitted to search engines
 - `llms.txt` — concise identity and work index for answer engines
@@ -66,10 +66,18 @@ Vendor source, license, and the local stylesheet patch are documented alongside 
 ## Flickr album sync
 
 The homepage picks uniformly from the complete locally hosted album on each load.
-The hourly workflow downloads new photos, updates titles and album membership, commits
+Every three days the workflow downloads new photos, updates titles and album membership, commits
 changes, and explicitly requests a Pages build (bot commits alone do not trigger one).
 Visitors only download the selected local image, never the entire album or Flickr API data.
 Repeated photos are possible with independent random selection.
+
+The daily scheduler checks a three-day UTC cadence anchored to 12 October 2026,
+so it stays three days apart across month boundaries. Manual runs refresh immediately
+without changing the cadence.
+
+Images use Flickr’s 640px display size (or a smaller available preview), never the
+full-resolution original. The current 22 previews are 43–215 KB each (about 1.9 MB
+in total); a visitor loads one selected preview. No extra compression is applied.
 
 The sync uses `flickr.photosets.getPhotos`, follows all API pages (500 items per page),
 and verifies the total and unique IDs before publishing. It obtains Flickr’s current
