@@ -93,7 +93,7 @@
     var flickrFigure = flickrPhoto.closest("figure");
     var flickrLinks = flickrFigure.querySelectorAll("[data-flickr-photo-link], [data-flickr-photo-title]");
     var flickrTitle = flickrFigure.querySelector("[data-flickr-photo-title]");
-    fetch("flickr-photos.json").then(function (response) {
+    fetch("flickr-photos.json", { cache: "no-cache" }).then(function (response) {
       if (!response.ok) throw new Error("Photo selection unavailable");
       return response.json();
     }).then(function (photos) {

@@ -283,8 +283,10 @@ add no color. Empty (and invisible) if `Intl` is unavailable.
 The `.flickr-latest` section chooses a random locally hosted photograph from `flickr-photos.json`
 on each homepage load, independently of the appearance seed. The image, caption, alt text,
 dimensions, and both Flickr links update together after the chosen image loads. The authored
-`flickr-photo.jpg` remains a fallback when JavaScript or loading fails. Refresh the album snapshot
-with `python3 scripts/sync-flickr-photos.py` after changing the album, then commit and push it.
+`flickr-photo.jpg` remains a fallback when JavaScript or loading fails. The complete public album snapshot refreshes hourly through
+`.github/workflows/sync-flickr-photos.yml`; manual runs and local refreshes with
+`python3 scripts/sync-flickr-photos.py` are also available. The sync follows every API
+page and preserves the last complete manifest if Flickr or an image download fails.
 Visitors make no requests to Flickr. The displayed image follows the standard content-photo
 border, radius, and grayscale treatment.
 Not allowed: bevels, marquees, animated gifs, table layouts, coloured link-visited states,

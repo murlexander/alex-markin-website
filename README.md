@@ -13,7 +13,7 @@ Personal site for alex markin. Static HTML + CSS, no build step, no framework.
 - `privacy.html` — redirects old links to the pop-up
 - `flickr-photo.jpg` — homepage photo fallback for unavailable JavaScript or image loads
 - `flickr-photos.json`, `flickr-photos/` — locally hosted album snapshot; one photo is chosen randomly on each homepage load
-- `scripts/sync-flickr-photos.py` — refresh the snapshot after changing the linked Flickr album with `python3 scripts/sync-flickr-photos.py`, then commit and push the result
+- `scripts/sync-flickr-photos.py` — fetch every page of the public Flickr album; `.github/workflows/sync-flickr-photos.yml` refreshes and publishes the snapshot hourly (at minute 37, subject to GitHub scheduling delays), with a manual **Run workflow** option
 - `robots.txt` — crawler permissions and sitemap discovery
 - `sitemap.xml` — canonical, indexable pages submitted to search engines
 - `llms.txt` — concise identity and work index for answer engines
@@ -62,6 +62,31 @@ objects. Reset-all asks for confirmation because it resets the arrangement for e
 Connection failures show a local preview; after the first sync, disconnected writes queue
 in the current tab. The page describes public storage and browser visitor identity.
 Vendor source, license, and the local stylesheet patch are documented alongside the bundle.
+
+## Flickr album sync
+
+The homepage picks uniformly from the complete locally hosted album on each load.
+The hourly workflow downloads new photos, updates titles and album membership, commits
+changes, and explicitly requests a Pages build (bot commits alone do not trigger one).
+Visitors only download the selected local image, never the entire album or Flickr API data.
+Repeated photos are possible with independent random selection.
+
+The sync uses `flickr.photosets.getPhotos`, follows all API pages (500 items per page),
+and verifies the total and unique IDs before publishing. It obtains Flickr’s current
+short-lived public site key from the album HTML; no account login or stored secret is
+required. If Flickr changes that HTML, a `FLICKR_API_KEY` environment variable can be
+used for a registered API key. API, completeness, or download failures leave the previous
+manifest intact and fail the workflow. Only publicly accessible photographs are included.
+Removed album entries leave the selection; old local image files are retained.
+
+For an immediate local refresh: `python3 scripts/sync-flickr-photos.py`, then commit
+and push. Run sync regression checks with
+`python3 -m unittest discover -s scripts -p 'test_flickr_sync.py'` and homepage checks
+with `node --test scripts/test-flickr-photo.cjs`.
+
+API and deployment references: [Flickr album API](https://www.flickr.com/services/api/flickr.photosets.getPhotos.html),
+[GitHub token and Pages builds](https://docs.github.com/en/actions/concepts/security/github_token),
+[request a Pages build](https://docs.github.com/en/rest/pages/pages#request-a-github-pages-build).
 
 ## Navigation prefetch
 

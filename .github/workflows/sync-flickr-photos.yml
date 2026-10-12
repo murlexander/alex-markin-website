@@ -1,0 +1,52 @@
+name: Sync Flickr album
+
+on:
+  schedule:
+    - cron: '37 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: flickr-album-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test complete-album sync
+        run: python3 -m unittest discover -s scripts -p 'test_flickr_sync.py'
+      - name: Fetch every public album photo
+        run: python3 scripts/sync-flickr-photos.py
+      - name: Save changed snapshot
+        run: |
+          git add flickr-photos.json flickr-photos/
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Refresh complete Flickr album snapshot'
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      # GITHUB_TOKEN commits do not trigger Pages automatically. Request a build
+      # explicitly, including retries when an earlier build failed after a push.
+      - name: Publish snapshot through GitHub Pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          latest=$(gh api "repos/$GH_REPO/pages/builds/latest" --jq '[.commit, .status] | join(" ")')
+          head=$(git rev-parse HEAD)
+          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" || ( "$latest" != "$head built" && "$latest" != "$head building" && "$latest" != "$head queued" ) ]]; then
+            gh api --method POST "repos/$GH_REPO/pages/builds"
+          fi
