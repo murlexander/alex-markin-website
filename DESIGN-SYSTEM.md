@@ -23,7 +23,7 @@ bounded palettes in `appearance.js` and `appearances.css`.
 |---|---|---|
 | `--bg` | `#000000` | base page background |
 | `--ink` | `#ccc6b9` | body text and link default |
-| `--ink-bright` | `#eae5da` | display text (the name) only |
+| `--ink-bright` | `#eae5da` | identity name and primary biography |
 | `--ink-hover` | `#ffffff` | link hover |
 | `--muted` | `#847e70` | descriptions, taglines, secondary text |
 | `--faint` | `#66614f` | mono tags, metadata |
@@ -114,6 +114,12 @@ The signature pattern. Title left, dotted line fills the middle, lowercase mono 
 </li>
 ```
 Inline links inside `.desc` render in `--accent`.
+
+The homepage primary bio uses `.desc.bio-copy`: the shared body size, `--ink-bright`,
+and `--bio-weight` (600 for simple/70mm, 500 for paper/blob/Eno, and 400 for
+CRT/terminal to preserve their single-weight faces). Its inline Louppe link inherits
+the bright prose and uses the standard appearance hover/focus response. Source Serif
+4 supplies a local real semibold face; supporting descriptions stay muted.
 
 The homepage bio ends with a `.desc.bio-postscript` linking to sibling websites.
 It uses the existing description scale with an 18px gap; its links inherit the muted
