@@ -607,7 +607,6 @@ html[data-look="simple"] body {
    -------------------------------------------------------------------------- */
 
 html[data-look="paper"] body {
-  --bio-weight: 500;
   --appearance-body-family: "Newsreader", Georgia, serif;
   --appearance-display-family: "Newsreader", Georgia, serif;
   --appearance-annotation-family: "Newsreader", Georgia, serif;
@@ -648,7 +647,6 @@ html[data-look="paper"] .appearance-option {
    -------------------------------------------------------------------------- */
 
 html[data-look="blobs"] body {
-  --bio-weight: 500;
   --appearance-body-family: "Jost", sans-serif;
   --appearance-display-family: "Jost", sans-serif;
   --appearance-annotation-family: "Jost", sans-serif;
@@ -925,7 +923,6 @@ html[data-look="eno"] {
 }
 
 html[data-look="eno"] body {
-  --bio-weight: 500;
   --appearance-body-family: "Montserrat", sans-serif;
   --appearance-display-family: "Montserrat", sans-serif;
   --appearance-annotation-family: "Montserrat", sans-serif;
@@ -1594,7 +1591,6 @@ html[data-look="crt"] .crt-mask-layer { display: block; }
 }
 
 html[data-look="crt"] body {
-  --bio-weight: 400;
   --appearance-body-family: "VT323", monospace;
   --appearance-display-family: "VT323", monospace;
   --appearance-annotation-family: "VT323", monospace;
@@ -1778,7 +1774,6 @@ html[data-look="crt"] a:not(.flickr-photo-link):is(:hover, :focus-visible)::afte
    -------------------------------------------------------------------------- */
 
 html[data-look="terminal"] body {
-  --bio-weight: 400;
   --appearance-body-family: var(--terminal-font-family);
   --appearance-display-family: var(--terminal-font-family);
   --appearance-annotation-family: var(--terminal-font-family);

@@ -9,7 +9,7 @@
   /* color — warm greys on pure black, olive accent */
   --bg:        #000000;  /* page background, always pure black */
   --ink:       #ccc6b9;  /* default text + links */
-  --ink-bright:#eae5da;  /* identity name and primary biography */
+  --ink-bright:#eae5da;  /* display text (the name) */
   --ink-hover: #ffffff;  /* link hover */
   --muted:     #847e70;  /* descriptions, taglines, secondary text */
   --faint:     #66614f;  /* mono tags, metadata */
@@ -24,8 +24,6 @@
   /* type */
   --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
   --mono:  "IBM Plex Mono", "SF Mono", Menlo, monospace;
-
-  --bio-weight: 600;
 
   /* type scale */
   --fs-display: 44px;    /* h1 name */
@@ -292,13 +290,15 @@ a[target="_blank"]:not(.flickr-photo-link)::after {
 
 .desc a { color: var(--accent); }
 
-/* Primary biography reads above supporting descriptions in every palette. */
+/* Primary biography shares the regular body voice of the link rows. */
 .bio-copy {
-  color: var(--ink-bright);
+  color: var(--ink);
   font-size: var(--fs-body);
-  font-weight: var(--bio-weight);
+  font-weight: inherit;
 }
 .bio-copy a { color: inherit; }
+.bio-copy a:hover,
+.bio-copy a:focus-visible { color: var(--ink-hover); }
 
 /* A quiet personal aside after the homepage bio. */
 .bio-postscript { margin-top: 18px; }

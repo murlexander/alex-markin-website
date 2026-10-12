@@ -9,10 +9,7 @@ The Google Fonts families include Latin and Latin Extended subsets; other script
 system fallbacks. Departure Mono's complete face also includes Cyrillic and Greek.
 `fonts.css` retains subset Unicode ranges where applicable and uses swap.
 
-Source Serif 4 semibold (600), Latin and Latin Extended, was added from the same
-Google Fonts CSS2 API on 2026-10-12 for the primary biography.
-
-Families: Source Serif 4 (400/600), IBM Plex Mono (400/500/600), Newsreader (400–600),
+Families: Source Serif 4 (400), IBM Plex Mono (400/500/600), Newsreader (400–600),
 DM Sans (400–700, retained but unused), Jost (400–500), Montserrat (400–600), Courier Prime (400/700), VT323 (400),
 Departure Mono (400), Fira Mono (400/500, retained as terminal fallback). Georgia is a system font and requires no download.
 
