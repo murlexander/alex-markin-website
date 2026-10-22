@@ -214,7 +214,21 @@
       ctx.fillStyle = line.color;
       ctx.fillText(line.text, padding, line.y);
     });
-    return new Promise((resolve, reject) => canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('image encoding failed')), 'image/png'));
+    // Drop the uncompressed backing store as soon as encoding completes,
+    // including failures. Only the small PNG/File needs to stay share-ready.
+    return new Promise((resolve, reject) => {
+      const release = () => { canvas.width = canvas.height = 0; };
+      try {
+        canvas.toBlob(blob => {
+          release();
+          if (blob) resolve(blob);
+          else reject(new Error('image encoding failed'));
+        }, 'image/png');
+      } catch (error) {
+        release();
+        reject(error);
+      }
+    });
   }
 
   function offerDownload(file, message, startDownload = false) {
@@ -317,6 +331,17 @@
   });
   $('copy-text').addEventListener('click', copyRecipeText);
   $('share-picture').addEventListener('click', shareRecipePicture);
+  window.addEventListener('pagehide', () => {
+    clearDownload();
+    clearTimeout(pictureTimer);
+    clearTimeout(copyFeedbackTimer);
+    ++pictureVersion; // An encoder finishing after departure cannot publish stale state.
+  });
+  window.addEventListener('pageshow', event => {
+    if (!event.persisted) return;
+    $('copy-text-label').textContent = 'copy as text';
+    if (!pictureFile) preparePicture();
+  });
   loadPreset();
   $('coffee-app').hidden = false;
 })();

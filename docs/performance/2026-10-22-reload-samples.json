@@ -1,0 +1,338 @@
+[
+  {
+    "version": "before",
+    "sample": 0,
+    "dom": 255,
+    "domContentLoaded": 116.59999999403954,
+    "grain": [
+      "1792px",
+      "1120px"
+    ],
+    "heap": 4710890,
+    "load": 140,
+    "siteBytes": 25512,
+    "url": "http://127.0.0.1:8788/?look=paper&seed=memory-check&sample=0"
+  },
+  {
+    "version": "after",
+    "sample": 0,
+    "dom": 255,
+    "domContentLoaded": 25.5,
+    "grain": [
+      "1408px",
+      "880px"
+    ],
+    "heap": 6345797,
+    "load": 31.100000001490116,
+    "siteBytes": 0,
+    "url": "http://127.0.0.1:8787/?look=paper&seed=memory-check&sample=0"
+  },
+  {
+    "version": "before",
+    "sample": 1,
+    "dom": 255,
+    "domContentLoaded": 20,
+    "grain": [
+      "1792px",
+      "1120px"
+    ],
+    "heap": 6706770,
+    "load": 23.700000002980232,
+    "siteBytes": 25512,
+    "url": "http://127.0.0.1:8788/?look=paper&seed=memory-check&sample=1"
+  },
+  {
+    "version": "after",
+    "sample": 1,
+    "dom": 255,
+    "domContentLoaded": 21.099999994039536,
+    "grain": [
+      "1408px",
+      "880px"
+    ],
+    "heap": 7790545,
+    "load": 21.899999998509884,
+    "siteBytes": 0,
+    "url": "http://127.0.0.1:8787/?look=paper&seed=memory-check&sample=1"
+  },
+  {
+    "version": "before",
+    "sample": 2,
+    "dom": 255,
+    "domContentLoaded": 19.600000001490116,
+    "grain": [
+      "1792px",
+      "1120px"
+    ],
+    "heap": 7790545,
+    "load": 19.69999999552965,
+    "siteBytes": 25512,
+    "url": "http://127.0.0.1:8788/?look=paper&seed=memory-check&sample=2"
+  },
+  {
+    "version": "after",
+    "sample": 2,
+    "dom": 255,
+    "domContentLoaded": 21.200000002980232,
+    "grain": [
+      "1408px",
+      "880px"
+    ],
+    "heap": 10057456,
+    "load": 22,
+    "siteBytes": 0,
+    "url": "http://127.0.0.1:8787/?look=paper&seed=memory-check&sample=2"
+  },
+  {
+    "version": "before",
+    "sample": 3,
+    "dom": 255,
+    "domContentLoaded": 20.100000001490116,
+    "grain": [
+      "1792px",
+      "1120px"
+    ],
+    "heap": 10057456,
+    "load": 22.899999998509884,
+    "siteBytes": 25512,
+    "url": "http://127.0.0.1:8788/?look=paper&seed=memory-check&sample=3"
+  },
+  {
+    "version": "after",
+    "sample": 3,
+    "dom": 255,
+    "domContentLoaded": 21.700000002980232,
+    "grain": [
+      "1408px",
+      "880px"
+    ],
+    "heap": 13236358,
+    "load": 22.5,
+    "siteBytes": 0,
+    "url": "http://127.0.0.1:8787/?look=paper&seed=memory-check&sample=3"
+  },
+  {
+    "version": "before",
+    "sample": 4,
+    "dom": 255,
+    "domContentLoaded": 20.5,
+    "grain": [
+      "1792px",
+      "1120px"
+    ],
+    "heap": 14846392,
+    "load": 23.600000001490116,
+    "siteBytes": 25512,
+    "url": "http://127.0.0.1:8788/?look=paper&seed=memory-check&sample=4"
+  },
+  {
+    "version": "after",
+    "sample": 4,
+    "dom": 255,
+    "domContentLoaded": 20.5,
+    "grain": [
+      "1408px",
+      "880px"
+    ],
+    "heap": 14846392,
+    "load": 21.299999997019768,
+    "siteBytes": 0,
+    "url": "http://127.0.0.1:8787/?look=paper&seed=memory-check&sample=4"
+  },
+  {
+    "version": "before",
+    "sample": 5,
+    "dom": 255,
+    "domContentLoaded": 20.19999999552965,
+    "grain": [
+      "1792px",
+      "1120px"
+    ],
+    "heap": 16228617,
+    "load": 20.299999997019768,
+    "siteBytes": 25512,
+    "url": "http://127.0.0.1:8788/?look=paper&seed=memory-check&sample=5"
+  },
+  {
+    "version": "after",
+    "sample": 5,
+    "dom": 255,
+    "domContentLoaded": 20.80000000447035,
+    "grain": [
+      "1408px",
+      "880px"
+    ],
+    "heap": 17753334,
+    "load": 21.5,
+    "siteBytes": 0,
+    "url": "http://127.0.0.1:8787/?look=paper&seed=memory-check&sample=5"
+  },
+  {
+    "version": "before",
+    "sample": 6,
+    "dom": 255,
+    "domContentLoaded": 22.5,
+    "grain": [
+      "1792px",
+      "1120px"
+    ],
+    "heap": 19363606,
+    "load": 22.600000001490116,
+    "siteBytes": 25512,
+    "url": "http://127.0.0.1:8788/?look=paper&seed=memory-check&sample=6"
+  },
+  {
+    "version": "after",
+    "sample": 6,
+    "dom": 255,
+    "domContentLoaded": 20.599999994039536,
+    "grain": [
+      "1408px",
+      "880px"
+    ],
+    "heap": 19194155,
+    "load": 21.399999998509884,
+    "siteBytes": 0,
+    "url": "http://127.0.0.1:8787/?look=paper&seed=memory-check&sample=6"
+  },
+  {
+    "version": "before",
+    "sample": 7,
+    "dom": 255,
+    "domContentLoaded": 21.5,
+    "grain": [
+      "1792px",
+      "1120px"
+    ],
+    "heap": 10942944,
+    "load": 25.100000001490116,
+    "siteBytes": 25512,
+    "url": "http://127.0.0.1:8788/?look=paper&seed=memory-check&sample=7"
+  },
+  {
+    "version": "after",
+    "sample": 7,
+    "dom": 255,
+    "domContentLoaded": 24,
+    "grain": [
+      "1408px",
+      "880px"
+    ],
+    "heap": 12479920,
+    "load": 24.899999998509884,
+    "siteBytes": 0,
+    "url": "http://127.0.0.1:8787/?look=paper&seed=memory-check&sample=7"
+  },
+  {
+    "version": "before",
+    "sample": 8,
+    "dom": 255,
+    "domContentLoaded": 23.5,
+    "grain": [
+      "1792px",
+      "1120px"
+    ],
+    "heap": 12479920,
+    "load": 23.600000001490116,
+    "siteBytes": 25512,
+    "url": "http://127.0.0.1:8788/?look=paper&seed=memory-check&sample=8"
+  },
+  {
+    "version": "after",
+    "sample": 8,
+    "dom": 255,
+    "domContentLoaded": 21,
+    "grain": [
+      "1408px",
+      "880px"
+    ],
+    "heap": 15617524,
+    "load": 22,
+    "siteBytes": 0,
+    "url": "http://127.0.0.1:8787/?look=paper&seed=memory-check&sample=8"
+  },
+  {
+    "version": "before",
+    "sample": 9,
+    "dom": 255,
+    "domContentLoaded": 19.799999997019768,
+    "grain": [
+      "1792px",
+      "1120px"
+    ],
+    "heap": 15617524,
+    "load": 22.399999998509884,
+    "siteBytes": 25512,
+    "url": "http://127.0.0.1:8788/?look=paper&seed=memory-check&sample=9"
+  },
+  {
+    "version": "after",
+    "sample": 9,
+    "dom": 255,
+    "domContentLoaded": 20.600000001490116,
+    "grain": [
+      "1408px",
+      "880px"
+    ],
+    "heap": 18751882,
+    "load": 21.399999998509884,
+    "siteBytes": 0,
+    "url": "http://127.0.0.1:8787/?look=paper&seed=memory-check&sample=9"
+  },
+  {
+    "version": "before",
+    "sample": 10,
+    "dom": 255,
+    "domContentLoaded": 20.100000001490116,
+    "grain": [
+      "1792px",
+      "1120px"
+    ],
+    "heap": 18751882,
+    "load": 20.299999997019768,
+    "siteBytes": 25512,
+    "url": "http://127.0.0.1:8788/?look=paper&seed=memory-check&sample=10"
+  },
+  {
+    "version": "after",
+    "sample": 10,
+    "dom": 255,
+    "domContentLoaded": 20.5,
+    "grain": [
+      "1408px",
+      "880px"
+    ],
+    "heap": 21885774,
+    "load": 21.299999997019768,
+    "siteBytes": 0,
+    "url": "http://127.0.0.1:8787/?look=paper&seed=memory-check&sample=10"
+  },
+  {
+    "version": "before",
+    "sample": 11,
+    "dom": 255,
+    "domContentLoaded": 24.600000001490116,
+    "grain": [
+      "1792px",
+      "1120px"
+    ],
+    "heap": 23495892,
+    "load": 24.69999999552965,
+    "siteBytes": 25512,
+    "url": "http://127.0.0.1:8788/?look=paper&seed=memory-check&sample=11"
+  },
+  {
+    "version": "after",
+    "sample": 11,
+    "dom": 255,
+    "domContentLoaded": 21.299999997019768,
+    "grain": [
+      "1408px",
+      "880px"
+    ],
+    "heap": 25019878,
+    "load": 22.099999994039536,
+    "siteBytes": 0,
+    "url": "http://127.0.0.1:8787/?look=paper&seed=memory-check&sample=11"
+  }
+]

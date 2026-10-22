@@ -627,6 +627,13 @@ Generative-page appearance behaviour is a second deliberate exception: it lives 
 `appearance.js` because it must run synchronously in the document head before CSS paints. Do not
 merge it into the deferred shared behaviour in `site.js`.
 
+Generated SVGs retain their original seeded bytes and resolution, with revocable object
+URLs owned by the current edition. Release them on appearance changes and `pagehide`,
+and restore them on cached `pageshow`. Hidden tabs pause artwork without changing its
+phase. Grain's 5% viewport gutter preserves the former 20% gutter's tile origin and
+absolute motion; do not enlarge its filtered surface to create animation clearance.
+Measure document texture height from content geometry, never artwork's own scroll overflow.
+
 ## adding a new page
 
 1. Copy `cv.html`'s standard `<head>` (fonts + `styles.css` + `privacy.css`) and `.page`

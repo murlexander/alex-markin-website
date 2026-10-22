@@ -44,6 +44,31 @@
   var appliedProperties = [];
   var currentEdition;
   var editionStorageKey = "alex-markin:appearance";
+  var editionResources = [];
+  var imageProperties = ["--grain-url", "--paper-texture-url", "--film-dust-url", "--film-perf-hole-url", "--crt-cursor-url"];
+  var pageInactive = false;
+
+  // Own generated SVGs explicitly through shuffles and history caching;
+  // object URLs give their image/filter resources a revocable lifetime.
+  // The SVG bytes and raster resolution are unchanged, with no async paint step.
+  function imageValue(name, value) {
+    if (imageProperties.indexOf(name) === -1 || !window.Blob ||
+        !window.URL || !window.URL.createObjectURL || !window.URL.revokeObjectURL) return value;
+    var match = /^url\("data:image\/svg\+xml,(.*)"\)$/.exec(value);
+    if (!match) return value;
+    try {
+      var url = window.URL.createObjectURL(new window.Blob([decodeURIComponent(match[1])], { type: "image/svg+xml" }));
+      editionResources.push(url);
+      return 'url("' + url + '")';
+    } catch (error) {
+      return value; // Restricted URL/storage implementations keep the original image.
+    }
+  }
+
+  function releaseImages() {
+    editionResources.forEach(function (url) { window.URL.revokeObjectURL(url); });
+    editionResources = [];
+  }
 
   function hashSeed(value) {
     var h = 2166136261;
@@ -891,6 +916,7 @@
     for (var p = 0; p < appliedProperties.length; p++) {
       root.style.removeProperty(appliedProperties[p]);
     }
+    releaseImages();
     appliedProperties = [];
 
     root.setAttribute("data-look", edition.look);
@@ -899,7 +925,7 @@
       root.setAttribute(name, edition.attrs[name]);
     });
     Object.keys(edition.vars).forEach(function (name) {
-      root.style.setProperty(name, edition.vars[name]);
+      root.style.setProperty(name, imageValue(name, edition.vars[name]));
       appliedProperties.push(name);
     });
     currentEdition = edition;
@@ -928,7 +954,7 @@
 
   var controlLayoutFrame;
   function scheduleControlLayout() {
-    if (controlLayoutFrame) window.cancelAnimationFrame(controlLayoutFrame);
+    if (pageInactive || controlLayoutFrame) return;
     controlLayoutFrame = window.requestAnimationFrame(updateControlLayout);
   }
 
@@ -967,19 +993,22 @@
   var documentLayerObserver;
 
   function updateDocumentLayerSize() {
-    if (documentLayerFrame) window.cancelAnimationFrame(documentLayerFrame);
+    if (pageInactive || documentLayerFrame) return;
     documentLayerFrame = window.requestAnimationFrame(function () {
       documentLayerFrame = null;
       if (!document.body) return;
       var page = document.querySelector(".page");
       var pageBottom = page ? page.offsetTop + page.offsetHeight : 0;
-      var height = Math.max(
+      // Absolute artwork must never measure itself through scrollHeight: an
+      // old, taller paper layer would prevent the document from shrinking.
+      var height = Math.ceil(Math.max(
         window.innerHeight,
-        document.body.scrollHeight,
-        document.documentElement.scrollHeight,
+        document.body.offsetHeight,
         pageBottom
-      );
-      root.style.setProperty("--appearance-document-height", height + "px");
+      )) + "px";
+      if (root.style.getPropertyValue("--appearance-document-height") !== height) {
+        root.style.setProperty("--appearance-document-height", height);
+      }
     });
   }
 
@@ -1000,7 +1029,7 @@
   }
 
   function updateParallax() {
-    if (parallaxFrame) window.cancelAnimationFrame(parallaxFrame);
+    if (pageInactive || parallaxFrame || !currentEdition || currentEdition.look !== "blobs") return;
     parallaxFrame = window.requestAnimationFrame(function () {
       parallaxFrame = null;
       var blobs = document.querySelectorAll("[data-parallax-blob]");
@@ -1067,13 +1096,44 @@
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(updateDocumentLayerSize);
     }
+    syncVisibility();
+  });
+
+  function syncVisibility() {
+    root.toggleAttribute("data-appearance-paused", document.hidden || pageInactive);
+  }
+
+  document.addEventListener("visibilitychange", syncVisibility);
+  window.addEventListener("pagehide", function () {
+    pageInactive = true;
+    [controlLayoutFrame, documentLayerFrame, parallaxFrame].forEach(function (frame) {
+      if (frame) window.cancelAnimationFrame(frame);
+    });
+    controlLayoutFrame = documentLayerFrame = parallaxFrame = null;
+    if (documentLayerObserver) documentLayerObserver.disconnect();
+    root.setAttribute("data-appearance-suspended", "");
+    imageProperties.forEach(function (name) {
+      if (currentEdition.vars[name]) root.style.setProperty(name, "none");
+    });
+    releaseImages();
+    syncVisibility();
   });
 
   /* A page restored from the back-forward cache may hold the edition it had
      before the visitor changed the other page. Unpinned history entries catch
      up to the tab's current edition; explicit look/seed URLs stay authoritative. */
   window.addEventListener("pageshow", function (event) {
-    if (!event.persisted) return;
+    if (!event.persisted || !pageInactive) return;
+    pageInactive = false;
+    imageProperties.forEach(function (name) {
+      if (currentEdition.vars[name]) root.style.setProperty(name, imageValue(name, currentEdition.vars[name]));
+    });
+    root.removeAttribute("data-appearance-suspended");
+    if (documentLayerObserver) documentLayerObserver.observe(document.body);
+    syncVisibility();
+    updateDocumentLayerSize();
+    updateParallax();
+    scheduleControlLayout();
     var restoredParams = new URLSearchParams(window.location.search);
     var restoredLook = restoredParams.get("look");
     var restoredSeed = restoredParams.get("seed");

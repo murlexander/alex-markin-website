@@ -159,12 +159,15 @@ html[data-look] body::before {
   content: "";
   position: fixed;
   z-index: 4;
-  inset: -20%;
+  /* The largest grain translation is 4.2vw/vh. A 5% gutter covers every
+     animation step without retaining a 140% × 140% filtered surface. */
+  inset: -5%;
   pointer-events: none;
   opacity: var(--grain-opacity);
   mix-blend-mode: var(--grain-blend);
   background-image: var(--grain-url);
   background-size: var(--grain-size) var(--grain-size);
+  background-position: -15vw -15vh;
   filter: contrast(var(--grain-contrast)) brightness(var(--grain-brightness));
   animation: appearance-grain-shift var(--grain-rate) steps(1) infinite;
   will-change: transform;
@@ -172,10 +175,10 @@ html[data-look] body::before {
 
 @keyframes appearance-grain-shift {
   0% { transform: translate3d(0, 0, 0); }
-  25% { transform: translate3d(-3%, 2%, 0); }
-  50% { transform: translate3d(2%, -3%, 0); }
-  75% { transform: translate3d(-2%, -2%, 0); }
-  100% { transform: translate3d(3%, 1%, 0); }
+  25% { transform: translate3d(-4.2vw, 2.8vh, 0); }
+  50% { transform: translate3d(2.8vw, -4.2vh, 0); }
+  75% { transform: translate3d(-2.8vw, -2.8vh, 0); }
+  100% { transform: translate3d(4.2vw, 1.4vh, 0); }
 }
 
 /* Shifting the tile itself keeps the 70mm grain alive without translating a
@@ -1905,6 +1908,20 @@ html[data-look="terminal"] a:not(.flickr-photo-link):is(:hover, :focus-visible):
   html[data-look="70mm"] .film-exposure::after,
   .paper-texture-layer { animation: none !important; will-change: auto; }
   .crt-mask-roll { display: none !important; }
+}
+
+/* Hidden tabs keep their animation phase. History entries retain semantic
+   content and state, while releasing artwork surfaces until pageshow. */
+html[data-appearance-paused] :is(.appearance-blob, .eno-lightbox, .eno-lightbox-state, .crt-mask-roll),
+html[data-appearance-paused] body::before,
+html[data-appearance-paused] .film-exposure::after {
+  animation-play-state: paused !important;
+}
+
+html[data-appearance-suspended] :is(.paper-texture-layer, .appearance-backdrop, .eno-lightbox, .crt-mask-layer, .film-backdrop, .film-gate, .film-emulsion),
+html[data-appearance-suspended] body::before,
+html[data-appearance-suspended] .film-exposure::after {
+  display: none !important;
 }
 
 /* Compact appearance chooser: shared utility text and a short, responsive choice grid.

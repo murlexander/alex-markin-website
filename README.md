@@ -106,6 +106,25 @@ Run `node --test scripts/prefetch.test.mjs`. Sources: [Chrome navigation prefetc
 
 Local verification, 8 October 2026: 18 automated tests pass. Chromium 151 confirmed hover requests and navigation cache reuse (`deliveryType: navigational-prefetch`); keyboard focus also exercised the resource-hint fallback. Louppe checks included an Arabic article. No Safari or Firefox browser run was performed.
 
+## Memory and resource lifetimes
+
+Homepage textures use edition-owned SVG object URLs with unchanged source bytes and
+raster resolution. Appearance changes revoke the previous edition's URLs; `pagehide`
+also cancels queued frames, disconnects the document observer, and releases artwork.
+`pageshow` restores an edition from history synchronously. Hidden tabs pause decorative
+animations without resetting their phase. Browsers without object URL support keep
+the original data-URI fallback.
+
+Grain uses a smaller filtered surface while preserving its tile position and movement.
+Paper texture height follows content geometry, allowing it to shrink after layout changes.
+The coffee calculator releases canvas backing stores after PNG encoding and revokes
+download URLs on departure; the compressed PNG stays ready for native sharing.
+
+Run `node --test scripts/*.cjs scripts/*.mjs` and
+`python3 -m unittest discover -s scripts -p 'test_flickr_sync.py'`.
+See [the 22 October verification](docs/performance/2026-10-22-memory.md) for measurements
+and browser coverage limits.
+
 ## Analytics
 
 `privacy.js` loads GA4 `G-6JZ3GQEVFL` only on HTTPS `alex-markin.com` after consent.
