@@ -48,6 +48,17 @@
 
   if (!choice || !choice.allowed) clearAnalyticsCookies();
 
+  // Cookie-free visit counts (Cloudflare Web Analytics); no consent needed, live site only.
+  (function loadVisitCounter() {
+    if (location.hostname !== "alex-markin.com" || location.protocol !== "https:") return;
+    if (document.querySelector("script[data-cf-beacon]")) return;
+    var beacon = document.createElement("script");
+    beacon.defer = true;
+    beacon.src = "https://static.cloudflareinsights.com/beacon.min.js";
+    beacon.setAttribute("data-cf-beacon", '{"token": "2047200eeeca4f5b9400baae09a34d87"}');
+    document.head.appendChild(beacon);
+  })();
+
   function save(allowed) {
     var wasAllowed = !!(choice && choice.allowed);
     choice = { version: 1, allowed: allowed, at: Date.now() };
@@ -92,7 +103,7 @@
   panel.className = "privacy-panel";
   panel.setAttribute("aria-label", "privacy and analytics");
   panel.innerHTML = '<p class="privacy-question">allow google analytics to count visits?</p>' +
-    '<details class="privacy-more"><summary>details</summary><p>google gets your page, ip and device details and sets <code>_ga</code>/<code>_ga_*</code> cookies (six months). alex markin · <a href="mailto:a@alex-markin.com">a@alex-markin.com</a> (controller). github pages logs ip for security (legitimate interest; <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">policy</a>). choice: 180 days; site look: this session. analytics data: up to 14 months; google may process outside the eea (<a href="https://policies.google.com/privacy/frameworks">safeguards</a>). withdraw anytime. email for access, correction, deletion, restriction, objection or portability; complain to <a href="https://www.datatilsynet.dk/borger/klage">datatilsynet</a>.</p></details>' +
+    '<details class="privacy-more"><summary>details</summary><p>google gets your page, ip and device details and sets <code>_ga</code>/<code>_ga_*</code> cookies (six months). alex markin · <a href="mailto:a@alex-markin.com">a@alex-markin.com</a> (controller). github pages logs ip for security (legitimate interest; <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">policy</a>). cloudflare web analytics counts visits without cookies or fingerprinting (legitimate interest; <a href="https://www.cloudflare.com/web-analytics/">about</a>). choice: 180 days; site look: this session. analytics data: up to 14 months; google may process outside the eea (<a href="https://policies.google.com/privacy/frameworks">safeguards</a>). withdraw anytime. email for access, correction, deletion, restriction, objection or portability; complain to <a href="https://www.datatilsynet.dk/borger/klage">datatilsynet</a>.</p></details>' +
     '<div class="privacy-actions"><button type="button" data-choice="no">no thanks</button><button type="button" data-choice="yes">allow analytics</button></div>';
   var noButton = panel.querySelector('[data-choice="no"]');
   var yesButton = panel.querySelector('[data-choice="yes"]');
