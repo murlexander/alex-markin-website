@@ -218,7 +218,7 @@ starts at the default preset on reload; saved preferences can be considered afte
 ```
 
 On the homepage, creative work is divided semantically into two separate sections: `projects`
-contains louppe, webdesign trials, and the coffee calculator; `publications` contains the authored,
+contains louppe, nibomo, and the coffee calculator; `publications` contains the authored,
 edited, or filmed pieces. Do not merge these headings into one list.
 
 ### stacked sections in one column
