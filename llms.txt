@@ -10,7 +10,7 @@
 
 - [coffee recipe calculator](https://alex-markin.com/coffee): coffee-to-water ratio calculator for v60, aeropress, and iced coffee, with adjustable quantities and temperatures, text copying, and picture sharing
 - [louppe media culler app](https://louppe.eu/): free, open-source, keyboard-first photo and video culler for macOS
-- [nibomo flashcards app](https://nibomo.com/): open-source ai flashcards for iphone, ipad, mac, android, and the web; alex is an active contributor
+- [nibomo flashcards app](https://nibomo.com/): open-source smart flashcards app; alex is an active contributor
 - [new york times summer reading contest winner](https://www.nytimes.com/2025/06/24/learning/the-authoritarian-playbook-is-always-the-same-the-week-1-winner-of-our-summer-reading-contest.html): “the authoritarian playbook is always the same”
 - [podcast on russian colonialism](https://www.youtube.com/watch?v=SKE0fzSEpo8): video editing for radio echo
 - [without feeling the country beneath us](https://www.youtube.com/watch?v=pyVTY9q6JZA): documentary on the first gulag
