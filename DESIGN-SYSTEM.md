@@ -267,12 +267,12 @@ Allowed (subtle, typographic): dotted leaders, mono tags and timestamps,
 "upd" footer, optional visitor-counter chip
 (`<span class="counter-chip">004821</span>`).
 
-**"How long ago" timestamp (`.ago`)** — a mono `--faint` span placed inside a
+**Live GitHub annotation (`.ago`)** — a mono `--faint` span placed inside a
 `.row` between the link and the `.leader`. `site.js` reads the public GitHub API:
-`data-user="<username>"` shows the latest public event, and
-`data-repo="<owner/repo>"` shows the repository's `pushed_at` (code activity).
-Successful dates are cached in `sessionStorage` for 15 minutes; failures, rate limits,
-and empty feeds leave the span empty. Never use a fixed fallback date for live activity.
+`data-user="<username>"` shows the latest public event as a "how long ago" timestamp,
+and `data-repo="<owner/repo>"` shows the repository's star count (`12 stars`, `1 star`).
+Successful values are cached in `sessionStorage` for 15 minutes; failures, rate limits,
+and empty feeds leave the span empty. Never use a fixed fallback value for live data.
 Requests omit credentials and the referrer; no token is shipped to the browser.
 Minute values use the compact `min` abbreviation for both singular and plural (e.g.
 `upd 1 min ago`, `upd 3 min ago`), never `minute` or `minutes`. Live update statuses use
@@ -607,7 +607,7 @@ visible on the experiment; no visitor text or uploaded images are accepted here.
 
 ## shared behaviour (`site.js`)
 
-Standard page behaviour lives in `site.js`: the public GitHub `.ago` timestamps,
+Standard page behaviour lives in `site.js`: the public GitHub `.ago` annotations (activity and stars),
 the header clock, random album photograph, and `copy as markdown`. Each block no-ops when its elements
 are absent. Do not re-inline this script into a page; add to `site.js` instead,
 and bump its `?v=` when it changes. `privacy.js` handles analytics consent on every

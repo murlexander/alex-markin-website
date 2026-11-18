@@ -49,12 +49,31 @@ test('profile reads public events and formats compact minutes', async () => {
   assert.equal(JSON.parse(result.cache.get(profileKey)).value, '2026-10-07T12:57:00Z');
 });
 
-test('repository uses its last push rather than metadata edits', async () => {
+test('repository shows its star count', async () => {
   const result = await run({ datasets: [{ repo: 'murlexander/louppe-media-culler' }],
-    data: { pushed_at: '2026-10-03T04:42:39Z', updated_at: '2026-10-07T12:59:00Z' } });
-  assert.equal(result.elements[0].textContent, 'upd 4 days ago');
-  assert.match(result.elements[0].title, /Latest repository push/);
+    data: { stargazers_count: 12, pushed_at: '2026-10-03T04:42:39Z' } });
+  assert.equal(result.elements[0].textContent, '12 stars');
+  assert.match(result.elements[0].title, /GitHub stars/);
   assert.equal(result.calls[0].url, 'https://api.github.com/repos/murlexander/louppe-media-culler');
+  assert.equal(JSON.parse(result.cache.get('github-stars-v1:repos/murlexander/louppe-media-culler')).value, 12);
+});
+
+test('repository star count uses singular and zero forms', async () => {
+  for (const [count, label] of [[1, '1 star'], [0, '0 stars']]) {
+    const result = await run({ datasets: [{ repo: 'o/r' }], data: { stargazers_count: count } });
+    assert.equal(result.elements[0].textContent, label);
+  }
+});
+
+test('repository ignores old activity caches and invalid star counts', async () => {
+  const cache = new Map([['github-activity-v1:repos/o/r', JSON.stringify({ at: now, value: '2026-10-07T12:59:00Z' })]]);
+  const cached = await run({ datasets: [{ repo: 'o/r' }], cache, data: { stargazers_count: 5 } });
+  assert.equal(cached.calls.length, 1);
+  assert.equal(cached.elements[0].textContent, '5 stars');
+  for (const data of [{}, { stargazers_count: -1 }, { stargazers_count: '5' }, { stargazers_count: 1.5 }]) {
+    const result = await run({ datasets: [{ repo: 'o/r' }], data });
+    assert.equal(result.elements[0].textContent, '');
+  }
 });
 
 test('fresh cache avoids another request and recalculates relative time', async () => {

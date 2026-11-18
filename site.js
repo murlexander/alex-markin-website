@@ -18,25 +18,32 @@
     return "just now";
   }
 
-  // Public activity only. Never substitute a fixed date when GitHub is unavailable.
-  // A short session cache avoids spending the public API limit on repeat visits.
+  // Public GitHub data only: profiles show their latest public activity and
+  // repositories show their star count. Never substitute a fixed value when
+  // GitHub is unavailable. A short session cache avoids spending the public API
+  // limit on repeat visits.
   document.querySelectorAll(".ago[data-user], .ago[data-repo]").forEach(function (el) {
     var repo = el.dataset.repo;
     var path = repo
       ? "repos/" + repo.split("/").map(encodeURIComponent).join("/")
       : "users/" + encodeURIComponent(el.dataset.user) + "/events/public?per_page=1";
-    var key = "github-activity-v1:" + path;
+    var key = (repo ? "github-stars-v1:" : "github-activity-v1:") + path;
     var maxAge = 15 * 60 * 1000;
 
     function valid(value) {
+      if (repo) return typeof value === "number" && Number.isInteger(value) && value >= 0;
       var time = typeof value === "string" ? new Date(value).getTime() : NaN;
       return Number.isFinite(time) && time <= Date.now();
     }
 
     function render(value) {
+      if (repo) {
+        el.textContent = value + (value === 1 ? " star" : " stars");
+        el.title = "GitHub stars: " + repo;
+        return;
+      }
       el.textContent = "upd " + ago(value);
-      el.title = (repo ? "Latest repository push: " : "Latest public GitHub activity: ") +
-        new Date(value).toISOString();
+      el.title = "Latest public GitHub activity: " + new Date(value).toISOString();
     }
 
     try {
@@ -56,12 +63,12 @@
       referrerPolicy: "no-referrer",
       signal: controller.signal
     }).then(function (response) {
-      if (!response.ok) throw new Error("GitHub activity unavailable");
+      if (!response.ok) throw new Error("GitHub data unavailable");
       return response.json();
     }).then(function (data) {
-      var value = repo ? data && data.pushed_at
+      var value = repo ? data && data.stargazers_count
         : Array.isArray(data) && data[0] && data[0].created_at;
-      if (!valid(value)) throw new Error("Missing GitHub activity date");
+      if (!valid(value)) throw new Error("Missing GitHub data");
       render(value);
       try {
         sessionStorage.setItem(key, JSON.stringify({ value: value, at: Date.now() }));
