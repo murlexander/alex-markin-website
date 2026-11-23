@@ -257,7 +257,7 @@
             ? "[" + link.textContent.trim() + "](" + link.href + ")"
             : inlineMarkdown(row);
           if (!text) return;
-          if (tag && tag.textContent.trim()) text += " — " + tag.textContent.trim();
+          if (tag && tag.textContent.trim()) text += " · " + tag.textContent.trim();
           lines.push("- " + text);
           if (desc) push(lines, "  ", inlineMarkdown(desc));
           if (notes) {
